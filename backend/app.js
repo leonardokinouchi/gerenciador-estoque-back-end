@@ -1,10 +1,29 @@
 const express = require('express')
+require('dotenv').config();
 const mongoose = require('mongoose');
+
+
+
 const app = express()
 const port = 3000
 app.use(express.json());
 
-mongoose.connect('mongodb+srv://leonardokinouchi:iGCkyAdr8iL0TfD8@cluster0.s0usx.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0');
+(async () => {
+  try {
+    const dblogin = process.env.DB_LOGIN;
+    const dbpass = process.env.DB_SENHA;
+
+    // String de conexão ao MongoDB
+    const connectionString = `mongodb+srv://${dblogin}:${dbpass}@cluster0.s0usx.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;
+
+    // Tentativa de conexão
+    await mongoose.connect(connectionString);
+    console.log('Conexão ao banco de dados realizada com sucesso!');
+
+  } catch (error) {
+    console.error('Erro ao conectar ao banco de dados:', error.message);
+  }
+})(); 
 
 
 const Produto = mongoose.model('Produto', {
