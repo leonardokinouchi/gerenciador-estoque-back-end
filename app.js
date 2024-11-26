@@ -33,9 +33,6 @@ const Produto = mongoose.model('Produto', {
   quantidade: Number
 });
 
-
-
-
 app.post('/produtos', async (req, res) => {
   const produto = new Produto({
     nome: req.body.nome,
