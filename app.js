@@ -29,7 +29,6 @@ app.use(cors());
 
 
 const Produto = mongoose.model('Produto', {
-  id: Number,
   nome: String,
   quantidade: Number
 });
@@ -41,7 +40,6 @@ app.get('/', (req, res) => {
 
 app.post('/produtos', async (req, res) => {
   const produto = new Produto({
-    id: req.body.id,
     nome: req.body.nome,
     quantidade: req.body.quantidade
   })
@@ -54,8 +52,10 @@ app.get('/produtos', async (req, res) => {
   try {
     const produtos = await Produto.find(); // Busca todos os produtos no banco
     res.json(produtos); // Retorna os produtos em formato JSON
+    console.log('Produtos listados!')
   } catch (err) {
     res.status(500).send('Erro ao buscar produtos');
+    console.log("Erro ao listar produtos!")
   }
 });
 
