@@ -34,9 +34,7 @@ const Produto = mongoose.model('Produto', {
 });
 
 
-app.get('/', (req, res) => {
-  res.send('Hello World!')
-})
+
 
 app.post('/produtos', async (req, res) => {
   const produto = new Produto({
@@ -72,11 +70,17 @@ app.get('/produtos/:id', async (req, res) => {
 
 app.put('/produtos/:id', async (req, res) => {
   try {
+    const { metodo } = req.body;
+    let valor
+    if(metodo == true){
+      valor = 1
+    }else{
+      valor = -1
+    }
     const produtoAtualizado = await Produto.findByIdAndUpdate(
       req.params.id, // ID do produto a ser atualizado
       {
-        nome: req.body.nome, // Novos valores
-        quantidade: req.body.quantidade,
+        $inc: { quantidade: valor },
       },
       { new: true } // Retorna o produto atualizado
     );
